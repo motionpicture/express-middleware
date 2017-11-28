@@ -5,8 +5,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## Unreleased
 ### Added
-- ベーシック認証ミドルウェアを追加。
-- レート制限ミドルウェアを追加。
 
 ### Changed
 
@@ -18,3 +16,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+
+## v0.0.0 - 2017-11-28
+### Added
+- ベーシック認証ミドルウェアを追加。
+- レート制限ミドルウェアを追加。
