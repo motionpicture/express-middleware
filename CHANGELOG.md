@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## Unreleased
 ### Added
+- Cognito認証ミドルウェアを追加。
 
 ### Changed
 

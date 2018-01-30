@@ -59,9 +59,9 @@ export class RequestCounterRepository {
     public static CREATE_COUNTER_UNIT_PARAMS(now: Date, scope: string, aggregationUnitInSeconds: number) {
         const dateNow = moment(now);
         // tslint:disable-next-line:no-magic-numbers
-        aggregationUnitInSeconds = parseInt(aggregationUnitInSeconds.toString(), 10);
-        const validFrom = dateNow.unix() - dateNow.unix() % aggregationUnitInSeconds;
-        const validThrough = validFrom + aggregationUnitInSeconds;
+        const aggregationUnit = parseInt(aggregationUnitInSeconds.toString(), 10);
+        const validFrom = dateNow.unix() - dateNow.unix() % aggregationUnit;
+        const validThrough = validFrom + aggregationUnit;
 
         return {
             identifier: `${scope}.${validFrom.toString()}`,
