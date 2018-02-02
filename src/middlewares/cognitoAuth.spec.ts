@@ -244,4 +244,28 @@ describe('cognitoAuth.default()', () => {
         assert.equal(result, undefined);
         sandbox.verify();
     });
+
+    it('トークン検出メソッドを指定すれば、実行されるはず', async () => {
+        defaultConfiguration.tokenDetecter = () => 'token';
+
+        const decodedJWT = {
+            header: { kid: jwks.keys[0].kid },
+            payload: { token_use: 'access', iss: TOKEN_ISSUER }
+        };
+        const params: any = {
+            req: { headers: { authorization: 'Bearer JWT' } },
+            res: {},
+            next: () => undefined
+        };
+
+        sandbox.mock(jwt).expects('decode').once().returns(decodedJWT);
+        // tslint:disable-next-line:no-magic-numbers
+        sandbox.mock(jwt).expects('verify').once().callsArgWith(3, null, decodedJWT.payload);
+        sandbox.mock(defaultConfiguration).expects('authorizedHandler').once();
+        sandbox.mock(defaultConfiguration).expects('tokenDetecter').once();
+
+        const result = await cognitoAuth.default(defaultConfiguration)(<any>params.req, <any>params.res, params.next);
+        assert.equal(result, undefined);
+        sandbox.verify();
+    });
 });

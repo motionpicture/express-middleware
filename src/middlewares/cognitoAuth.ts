@@ -77,6 +77,10 @@ const pemsByIssuer: { [issuer: string]: IPems } = {};
 
 export type IAuthorizedHandler = (user: IUser, token: string, req: Request, res: Response, next: NextFunction) => void;
 export type IUnauthorizedHandler = (err: Error, req: Request, res: Response, next: NextFunction) => void;
+export type ITokenDetecter = (req: Request) => string;
+/**
+ * ミドルウェア設定インターフェース
+ */
 export interface IConfigurations {
     /**
      * 許可発行者リスト
@@ -90,15 +94,23 @@ export interface IConfigurations {
      * 認証失敗時の動作ハンドラー
      */
     unauthorizedHandler?: IUnauthorizedHandler;
+    /**
+     * リクエストからどうトークンを検出するか
+     */
+    tokenDetecter?: ITokenDetecter;
 }
 
 export default (configurations: IConfigurations) => {
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
-            // ヘッダーからBearerトークンを取り出す
             let token: string | null = null;
-            if (typeof req.headers.authorization === 'string' && (<string>req.headers.authorization).split(' ')[0] === 'Bearer') {
-                token = (<string>req.headers.authorization).split(' ')[1];
+            if (typeof configurations.tokenDetecter === 'function') {
+                token = configurations.tokenDetecter(req);
+            } else {
+                // トークン検出方法の指定がなければ、ヘッダーからBearerトークンを取り出す
+                if (typeof req.headers.authorization === 'string' && req.headers.authorization.split(' ')[0] === 'Bearer') {
+                    token = req.headers.authorization.split(' ')[1];
+                }
             }
 
             if (token === null) {
@@ -135,12 +147,12 @@ async function createPems(issuer: string) {
     const openidConfiguration: IOpenIdConfiguration = await request({
         url: `${issuer}${URI_OPENID_CONFIGURATION}`,
         json: true
-    }).then((body) => body);
+    }).then((body: any) => body);
 
     return request({
         url: openidConfiguration.jwks_uri,
         json: true
-    }).then((body) => {
+    }).then((body: any) => {
         debug('got jwks_uri', body);
         const pemsByKid: IPems = {};
         (<any[]>body.keys).forEach((key) => {
