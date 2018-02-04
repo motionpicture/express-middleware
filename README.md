@@ -35,15 +35,21 @@ var middlewares = require('@motionpicture/express-middleware');
 | ------- | -------- | -------------------- | ------- |
 | `DEBUG` | false    | express-middleware:* | Debug   |
 
+### Middlewares
+
+| Name        | Purpose                                                               |
+| ----------- | --------------------------------------------------------------------- |
+| basicAuth   | Add a basic authentication.                                           |
+| cognitoAuth | Add an authentication using Amazon Cognito User Pools.                |
+| rateLimit   | Add a rate limiting using Redis Cache as request counting repository. |
 
 ## Code Samples
 
-コードサンプルは [example](https://github.com/motionpicture/express-middleware/tree/master/example) にあります。
-
+Code samples are [here](https://github.com/motionpicture/express-middleware/tree/master/example).
 
 ## Jsdoc
 
-`npm run doc`でjsdocを作成できます。./docに出力されます。
+`npm run doc` outputs docs to ./docs.
 
 ## License
 

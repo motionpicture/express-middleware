@@ -5,7 +5,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## Unreleased
 ### Added
-- Cognito認証ミドルウェアを追加。
 
 ### Changed
 
@@ -17,6 +16,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+
+## v0.1.0 - 2018-02-04
+### Added
+- Cognito認証ミドルウェアを追加。
 
 ## v0.0.0 - 2017-11-28
 ### Added
