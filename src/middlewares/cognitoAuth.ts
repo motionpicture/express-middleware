@@ -77,7 +77,7 @@ const pemsByIssuer: { [issuer: string]: IPems } = {};
 
 export type IAuthorizedHandler = (user: IUser, token: string, req: Request, res: Response, next: NextFunction) => void;
 export type IUnauthorizedHandler = (err: Error, req: Request, res: Response, next: NextFunction) => void;
-export type ITokenDetecter = (req: Request) => string;
+export type ITokenDetecter = (req: Request) => Promise<string>;
 /**
  * ミドルウェア設定インターフェース
  */
@@ -105,7 +105,7 @@ export default (configurations: IConfigurations) => {
         try {
             let token: string | null = null;
             if (typeof configurations.tokenDetecter === 'function') {
-                token = configurations.tokenDetecter(req);
+                token = await configurations.tokenDetecter(req);
             } else {
                 // トークン検出方法の指定がなければ、ヘッダーからBearerトークンを取り出す
                 if (typeof req.headers.authorization === 'string' && req.headers.authorization.split(' ')[0] === 'Bearer') {
