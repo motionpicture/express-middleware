@@ -1,9 +1,7 @@
 /**
  * Cognito認証ミドルウェア
- * @module cognitoAuth
  * @see https://aws.amazon.com/blogs/mobile/integrating-amazon-cognito-user-pools-with-api-gateway/
  */
-
 import * as createDebug from 'debug';
 // tslint:disable-next-line:no-implicit-dependencies
 import { NextFunction, Request, Response } from 'express';
@@ -31,8 +29,6 @@ export interface IUser {
 
 /**
  * cognito認可サーバーのOPEN ID構成インターフェース
- * @export
- * @interface
  */
 export interface IOpenIdConfiguration {
     issuer: string;
@@ -48,8 +44,6 @@ export interface IOpenIdConfiguration {
 
 /**
  * トークンに含まれる情報インターフェース
- * @export
- * @interface
  */
 export interface IPayload {
     sub: string;
@@ -66,8 +60,6 @@ export interface IPayload {
 
 /**
  * 公開鍵インターフェース
- * @export
- * @interface
  */
 export interface IPems {
     [key: string]: string;
@@ -103,6 +95,7 @@ export interface IConfigurations {
 export default (configurations: IConfigurations) => {
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
+            // tslint:disable-next-line:no-null-keyword
             let token: string | null = null;
             if (typeof configurations.tokenDetecter === 'function') {
                 token = await configurations.tokenDetecter(req);
@@ -136,7 +129,8 @@ export default (configurations: IConfigurations) => {
             if (typeof configurations.unauthorizedHandler === 'function') {
                 configurations.unauthorizedHandler(error, req, res, next);
             } else {
-                res.status(UNAUTHORIZED).end('Unauthorized');
+                res.status(UNAUTHORIZED)
+                    .end('Unauthorized');
             }
         }
     };
@@ -147,20 +141,22 @@ async function createPems(issuer: string) {
     const openidConfiguration: IOpenIdConfiguration = await request({
         url: `${issuer}${URI_OPENID_CONFIGURATION}`,
         json: true
-    }).then((body: any) => body);
+    })
+        .then((body: any) => body);
 
     return request({
         url: openidConfiguration.jwks_uri,
         json: true
-    }).then((body: any) => {
-        debug('got jwks_uri', body);
-        const pemsByKid: IPems = {};
-        (<any[]>body.keys).forEach((key) => {
-            pemsByKid[key.kid] = jwkToPem(key);
-        });
+    })
+        .then((body: any) => {
+            debug('got jwks_uri', body);
+            const pemsByKid: IPems = {};
+            (<any[]>body.keys).forEach((key) => {
+                pemsByKid[key.kid] = jwkToPem(key);
+            });
 
-        return pemsByKid;
-    });
+            return pemsByKid;
+        });
 }
 
 /**

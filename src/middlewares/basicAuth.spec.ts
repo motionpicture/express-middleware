@@ -1,10 +1,7 @@
 // tslint:disable:no-implicit-dependencies
-
 /**
  * ベーシック認証ミドルウェアテスト
- * @ignore
  */
-
 import * as assert from 'assert';
 import { UNAUTHORIZED } from 'http-status';
 import * as sinon from 'sinon';

@@ -1,10 +1,7 @@
 // tslint:disable:no-implicit-dependencies
-
 /**
  * 認証ミドルウェアテスト
- * @ignore
  */
-
 import * as assert from 'assert';
 import { OK } from 'http-status';
 import * as jwt from 'jsonwebtoken';

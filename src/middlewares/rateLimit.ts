@@ -1,8 +1,6 @@
 /**
  * 接続回数制限ミドルウェア
- * @module rateLimit
  */
-
 import * as createDebug from 'debug';
 // tslint:disable-next-line:no-implicit-dependencies
 import { NextFunction, Request, Response } from 'express';
@@ -46,8 +44,7 @@ export interface IConfigurations {
 }
 
 /**
- * リクエスト数カウンターレポジトリー
- * @class
+ * リクエスト数カウンターリポジトリ
  */
 export class RequestCounterRepository {
     public readonly redisClient: redis.Redis;
@@ -64,7 +61,7 @@ export class RequestCounterRepository {
         const validThrough = validFrom + aggregationUnit;
 
         return {
-            identifier: `${scope}.${validFrom.toString()}`,
+            identifier: `${scope}:${validFrom.toString()}`,
             validFrom: validFrom,
             validThrough: validThrough
         };
@@ -72,9 +69,6 @@ export class RequestCounterRepository {
 
     /**
      * 許可証数をカウントアップする
-     * @param {Date} now 現在日時
-     * @param {string} scope スコープ
-     * @param {number} aggregationUnitInSeconds 集計単位(秒)
      */
     public async incr(now: Date, scope: string, aggregationUnitInSeconds: number): Promise<number> {
         const issueUnitParams = RequestCounterRepository.CREATE_COUNTER_UNIT_PARAMS(now, scope, aggregationUnitInSeconds);
@@ -124,7 +118,8 @@ export default (configurations: IConfigurations) => {
             configurations.limitExceededHandler(numberOfRequests, req, res, next);
         } else {
             res.setHeader('Retry-After', configurations.aggregationUnitInSeconds);
-            res.status(TOO_MANY_REQUESTS).end('Too Many Requests');
+            res.status(TOO_MANY_REQUESTS)
+                .end('Too Many Requests');
         }
     };
 };
