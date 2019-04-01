@@ -1,10 +1,7 @@
 // tslint:disable:no-implicit-dependencies
-
 /**
  * rate limitミドルウェアテスト
- * @ignore
  */
-
 import * as assert from 'assert';
 import { TOO_MANY_REQUESTS } from 'http-status';
 import { Redis } from 'ioredis';

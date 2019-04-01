@@ -1,8 +1,6 @@
 /**
  * ベーシック認証ミドルウェア
- * @module basicAuth
  */
-
 import * as basicAuth from 'basic-auth';
 import * as createDebug from 'debug';
 // tslint:disable-next-line:no-implicit-dependencies
@@ -66,7 +64,8 @@ export default (configurations: IConfigurations) => {
             configurations.unauthorizedHandler(req, res, next);
         } else {
             res.setHeader('WWW-Authenticate', 'Basic realm="Access to staging site"');
-            res.status(UNAUTHORIZED).end('Unauthorized');
+            res.status(UNAUTHORIZED)
+                .end('Unauthorized');
         }
     };
 };
