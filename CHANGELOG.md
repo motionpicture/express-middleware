@@ -1,4 +1,5 @@
 # Changelog
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
@@ -9,9 +10,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Changed
 
-- rateLimitミドルウェアのRedisキー名を変更(ディリミタをドットからコロンに変更)
-- update packages
-
 ### Deprecated
 
 ### Removed
@@ -20,6 +18,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## v0.1.1 - 2019-04-01
+
+### Changed
+
+- rateLimitミドルウェアのRedisキー名を変更(ディリミタをドットからコロンに変更)
+- update packages
 
 ## v0.1.0 - 2018-02-04
 
