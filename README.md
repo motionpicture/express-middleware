@@ -10,8 +10,6 @@
 ## Table of contents
 
 * [Usage](#usage)
-* [Example](#code-samples)
-* [Jsdoc](#jsdoc)
 * [License](#license)
 
 ## Usage
@@ -37,14 +35,6 @@ var middlewares = require('@motionpicture/express-middleware');
 | basicAuth   | Add a basic authentication.                                           |
 | cognitoAuth | Add an authentication using Amazon Cognito User Pools.                |
 | rateLimit   | Add a rate limiting using Redis Cache as request counting repository. |
-
-## Code Samples
-
-Code samples are [here](https://github.com/motionpicture/express-middleware/tree/master/example).
-
-## Jsdoc
-
-`npm run doc` outputs docs to ./docs.
 
 ## License
 
